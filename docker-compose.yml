@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  ansible:
+    build:
+      context: .
+      dockerfile: ansible/Dockerfile
+      args:
+        DB_NAME: ${DB_NAME}
+        DB_USER: ${DB_USER}
+        DB_PASS: ${DB_PASS}
+    container_name: ansible
+    restart: unless-stopped
