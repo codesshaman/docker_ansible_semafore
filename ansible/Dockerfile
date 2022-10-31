@@ -1,6 +1,6 @@
 FROM python:3.12.0a1-alpine3.16
 
-ENV 
+ARG ANSIBLE_VERSION
 
 RUN echo "===> Installing sudo to emulate normal OS behavior..."  && \
     apk --update add sudo                                         && \
@@ -13,7 +13,7 @@ RUN echo "===> Installing sudo to emulate normal OS behavior..."  && \
     \
     \
     echo "===> Installing Ansible..."  && \
-    pip install 'ansible==6.5.0'; \
+    pip install 'ansible==${ANSIBLE_VERSION}'; \
     pip install pyvmomi; \
     \
     \
