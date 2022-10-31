@@ -1,4 +1,4 @@
-name = Grafana
+name = Ansible
 
 NO_COLOR=\033[0m
 OK_COLOR=\033[32;01m

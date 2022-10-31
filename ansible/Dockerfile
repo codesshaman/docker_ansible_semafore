@@ -1,40 +1,34 @@
-FROM alpine:3.16
+FROM python:3.12.0a1-alpine3.16
 
-ARG ANSIBLE_VERSION
+ENV 
 
 RUN echo "===> Installing sudo to emulate normal OS behavior..."  && \
-    apk --update add sudo                                         
-    # && \
-    # \
-    # \
-RUN echo "===> Adding Python runtime..."  && \
-    apk --update add python py-pip openssl ca-certificates    && \
-    apk --update add --virtual build-dependencies \
-                python-dev libffi-dev openssl-dev build-base  && \
-    pip install --upgrade pip pycrypto cffi                   
-    # && \
-    # \
-    # \
-RUN echo "===> Installing Ansible..."  && \
-    pip install ansible==1.9.4         
-    # && \
-    # \
-    # \
-RUN echo "===> Installing handy tools (not absolutely required)..."  && \
-    apk --update add sshpass openssh-client rsync  
-    # && \
-    # \
-    # \
-RUN echo "===> Removing package list..."  && \
+    apk --update add sudo                                         && \
+    \
+    \
+    echo "===> Adding Python runtime..."  && \
+    apk update add git net-tools && \
+    python -m pip install --upgrade pip; \
+    pip install --upgrade setuptools; \
+    \
+    \
+    echo "===> Installing Ansible..."  && \
+    pip install 'ansible==6.5.0'; \
+    pip install pyvmomi; \
+    \
+    \
+    echo "===> Removing package list..."  && \
     apk del build-dependencies            && \
-    rm -rf /var/cache/apk/*               
-    # && \
-    # \
-    # \
-RUN echo "===> Adding hosts for convenience..."  && \
+    rm -rf /var/cache/apk/*               && \
+    \
+    \
+    echo "===> Adding hosts for convenience..."  && \
     mkdir -p /etc/ansible                        && \
+    \
+    \
     echo 'localhost' > /etc/ansible/hosts
 
+COPY ansible-playbook-wrapper /usr/local/bin/
 
 # default command: display Ansible version
 CMD [ "ansible-playbook", "--version" ]
