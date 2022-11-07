@@ -1,5 +1,7 @@
 # Installation
 
+Required installed make in your host machine.
+
 Use .env - file for choose ansible version.
 
 Use ``make build`` for building configuration.
