@@ -1,9 +1,18 @@
 name = Ansible
 
-NO_COLOR=\033[0m
-OK_COLOR=\033[32;01m
-ERROR_COLOR=\033[31;01m
-WARN_COLOR=\033[33;01m
+No_color=\033[0m		# Color Reset
+Color_Off='\e[0m'       # Color Off
+Ok_green=\033[32;01m	# Green Ok
+Err_red=\033[31;01m		# Error red
+Warn_yel=\033[33;01m	# Warning yellow
+Red='\e[1;31m'          # Red
+Green='\e[1;32m'        # Green
+Yellow='\e[1;33m'       # Yellow
+Blue='\e[1;34m'         # Blue
+Purple='\e[1;35m'       # Purple
+Cyan='\e[1;36m'         # Cyan
+White='\e[1;37m'        # White
+UCyan='\e[4;36m'        # Cyan
 
 all:
 	@printf "Launch configuration ${name}...\n"
@@ -18,23 +27,23 @@ help:
 	@echo -e "$(WARN_COLOR)- make clean			: Cleaning configuration$(NO_COLOR)"
 
 build:
-	@printf "Building configuration ${name}...\n"
+	@printf "$(OK_COLOR)==== Building configuration ${name}... ====$(NO_COLOR)\n"
 	@docker-compose -f ./docker-compose.yml up -d --build
 
 down:
-	@printf "Stopping configuration ${name}...\n"
+	@printf "$(ERROR_COLOR)==== Stopping configuration ${name}... ====$(NO_COLOR)\n"
 	@docker-compose -f ./docker-compose.yml down
 
 re:	down
-	@printf "Rebuild configuration ${name}...\n"
+	@printf "$(OK_COLOR)==== Rebuild configuration ${name}... ====$(NO_COLOR)\n"
 	@docker-compose -f ./docker-compose.yml up -d --build
 
 clean: down
-	@printf "Cleaning configuration ${name}...\n"
+	@printf "$(ERROR_COLOR)==== Cleaning configuration ${name}... ====$(NO_COLOR)\n"
 	@docker system prune -a
 
 fclean:
-	@printf "Total clean of all configurations docker\n"
+	@printf "$(ERROR_COLOR)==== Total clean of all configurations docker ====$(NO_COLOR)\n"
 	# @docker stop $$(docker ps -qa)
 	# @docker system prune --all --force --volumes
 	# @docker network prune --force
